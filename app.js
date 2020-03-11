@@ -16,7 +16,7 @@ var CampgroundRoutes=require("./routes/campgrounds"),
     commentRoutes   =require("./routes/comments"), 
     authRoutes      =require("./routes/index");
 
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true , useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://punk_GTS:blackcaps434@shorya-moefa.mongodb.net/YelpCamp?retryWrites=true&w=majority', {useNewUrlParser: true , useUnifiedTopology: true });
 
 //seedDb(); seed the database
 
@@ -53,8 +53,8 @@ app.use((req,res,next)=>{
 app.use("",authRoutes);
 app.use("/campgrounds/:id/comments",commentRoutes);
 app.use("/campgrounds",CampgroundRoutes);
-
-app.listen(3000,()=>
+const PORT = process.env.PORT || 3000;
+app.listen(PORT,()=>
 {
     console.log("app started!!");  
 });
