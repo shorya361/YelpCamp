@@ -24,7 +24,7 @@ router.get("/register",(req,res)=>{
 })
 
 router.post("/register",(req,res)=>{
-    var newUser= new User({username: req.body.username})
+    var newUser= new User({username: req.body.username,city: req.body.city})
 User.register( newUser,req.body.password,(err,createdUser)=>{
     if(err){
         req.flash("error",err.message);

@@ -14,7 +14,8 @@ var Comment=require("./models/comment.js")
     //requiring routes
 var CampgroundRoutes=require("./routes/campgrounds"),
     commentRoutes   =require("./routes/comments"), 
-    authRoutes      =require("./routes/index");
+    authRoutes      =require("./routes/index"),
+    UserRoute       =require("./routes/user");
 var dbURL=process.env.DATABASEURL || "mongodb://localhost:27017/test"
 //mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true , useUnifiedTopology: true }); // to connect to local database
 mongoose.connect(dbURL, {useNewUrlParser: true , useUnifiedTopology: true }); //to connect to mongodb ATLAS database
@@ -54,6 +55,7 @@ app.use((req,res,next)=>{
 app.use("",authRoutes);
 app.use("/campgrounds/:id/comments",commentRoutes);
 app.use("/campgrounds",CampgroundRoutes);
+app.use("",UserRoute);
 
 // 
 const PORT = process.env.PORT || 3000;

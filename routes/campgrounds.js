@@ -19,13 +19,10 @@ router.get("/",(req,res)=>{
 
 })
 
-
 //NEW
 router.get("/new",middleware.isloggedin,(req,res)=>{
     res.render("campgrounds/new");
 });
-
-
 
 //Create- add new grounds in db
 router.post("/",middleware.isloggedin,(req,res)=>{
