@@ -2,8 +2,34 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1><%= currentUser.username%></h1>
-        <h2>city: <%=currentUser.city%></h2>
+        <h1><%= currentUser.username %></h1>
+        <a class="btn btn-primary btn-xs" href="/user/<%= currentUser._id %>/edit"> Edit Profile </a>
+        <h4>city: <%= currentUser.city%></h4>
+        <h2>campgrounds created</h2><br>
+        <% if( campgrounds.length==0 ) { %>
+            <h4>
+                no campgrounds posted yet. 
+            </h4> 
+            <a class="btn btn-primary btn-xs" href="/campgrounds/new/">Add new campground </a>
+
+            <% } else { %>
+            <%    campgrounds.forEach((camps)=>{  %>
+            <h3> <%= camps.name %> </h3>
+            
+            <% } ) } %>    
+
+        <br>
+        <br>
+            <h2>Comments created</h2><br>
+            <% if( comment.length==0 ) { %>
+                <h4>
+                    no comments .sry
+                </h4> 
+                <% } else { %>
+                <%    comment.forEach((comments)=>{  %>
+                <h3> <%= comments.text %> </h3>
+                
+                <% } ) } %>    
     </div>
 </div>
 

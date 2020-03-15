@@ -1,8 +1,15 @@
 var express=require("express");
 var router=express.Router();
 var passport=require("passport"),
-    User= require("../models/user")
-    middleware=require("../middleware");
+    User= require("../models/user"),
+    Comments=require("../models/comment"),
+    CAMP=require("../models/campgrounds"),
+    middleware=require("../middleware"),
+    multer=require("multer"),
+    GridFsStorage= require("multer-gridfs-storage"),
+    Grid = require('gridfs-stream'),
+    path=require("path"),
+    methodOverride=require("method-override");
 
     //root route
 router.get("/",(req,res)=>{
@@ -11,6 +18,58 @@ router.get("/",(req,res)=>{
 });
 
 
+//===============
+//USER ROUTE
+//===============
+//user profile page
+router.get("/user/:id", async (req,res)=>{
+
+    try {
+        let campgrounds = [];
+        let comments=[];
+        let foundUser = await User.findById(req.params.id);
+        for(const id in foundUser.campgrounds) {
+            
+            const data = await CAMP.findById(foundUser.campgrounds[id]);
+            campgrounds.push(data);
+        }
+        for(const id in foundUser.comments) {
+            
+            const data = await Comments.findById(foundUser.comments[id]);
+            if(data!=null)
+            {
+                comments.push(data);
+
+            }
+        }
+        //console.log(campgrounds,comments);
+        res.render("User/user",{theUser : foundUser, campgrounds: campgrounds, comment : comments });
+    } catch (err) {
+        console.log(err);
+    }
+    
+
+});
+//edit user route
+router.get("/user/:id/edit",middleware.isloggedin,(req,res)=>{
+    User.findById(req.params.id,(err,foundUser)=>{
+        res.render("User/edit",{theUser: foundUser});                
+    })
+
+});
+//update the user    
+router.put("/user/:id",middleware.isloggedin,(req,res)=>{
+   
+    User.findByIdAndUpdate(req.params.id,req.body.user,(err, updatedUser)=>{
+        if(err){
+            res.redirect("/campgrounds")
+        }
+        else{
+            req.flash("success","Profile Updated");
+            res.redirect("/user/" + req.params.id);
+        }
+    })
+});
 
 
 //===============

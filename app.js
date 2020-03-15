@@ -10,12 +10,12 @@ var Comment=require("./models/comment.js")
     User= require("./models/user"),
     flash=require("connect-flash"),
     methodOverride=require("method-override");
+    
 
     //requiring routes
 var CampgroundRoutes=require("./routes/campgrounds"),
     commentRoutes   =require("./routes/comments"), 
-    authRoutes      =require("./routes/index"),
-    UserRoute       =require("./routes/user");
+    authRoutes      =require("./routes/index");
 var dbURL=process.env.DATABASEURL || "mongodb://localhost:27017/test"
 //mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true , useUnifiedTopology: true }); // to connect to local database
 mongoose.connect(dbURL, {useNewUrlParser: true , useUnifiedTopology: true }); //to connect to mongodb ATLAS database
@@ -47,6 +47,8 @@ passport.deserializeUser(User.deserializeUser());
 //to make userinfo available at all routes
 app.use((req,res,next)=>{
     res.locals.currentUser = req.user;
+    res.locals.CAMPGROUND=Campground;
+    res.locals.COMMENT=Comment;
     res.locals.error = req.flash("error");
     res.locals.success=req.flash("success");
     next();
@@ -55,7 +57,7 @@ app.use((req,res,next)=>{
 app.use("",authRoutes);
 app.use("/campgrounds/:id/comments",commentRoutes);
 app.use("/campgrounds",CampgroundRoutes);
-app.use("",UserRoute);
+
 
 // 
 const PORT = process.env.PORT || 3000;

@@ -1,7 +1,7 @@
 var express=require("express");
 var router=express.Router();
 var Campground= require("../models/campgrounds.js"),
-Comment=require("../models/comment");
+    Comment=require("../models/comment");
 var middleware=require("../middleware");// automatically require "index" file 
 
 
@@ -42,15 +42,28 @@ router.post("/",middleware.isloggedin,(req,res)=>{
         description:descrip,
         author: author
     }
-    Campground.create(newCamp,(err,newlyCreated)=>{
+    Campground.create(newCamp,(err,newlyCreated)=>
+    {
         if(err){
             console.log(err);
         }
         else{
-            req.flash("success","Campground successfully created");
-            res.redirect("/campgrounds");
+            User.findById(req.user._id).exec((err,foundUser)=>
+            {
+                if(err){
+                    console.log(err);
+                }
+                else{
+                foundUser.campgrounds.push(newlyCreated._id);
+                foundUser.save()
+                console.log(foundUser);
+                req.flash("success","Campground successfully created");
+                res.redirect("/campgrounds");
+                }
+                
+            })
         }
-        });
+    });
 });
 //SHOW
 router.get("/:id",(req,res)=>{

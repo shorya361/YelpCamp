@@ -19,7 +19,7 @@ router.get("/new",middleware.isloggedin,(req,res)=>{
 })
 //comments create
 router.post("/",middleware.isloggedin,(req,res)=>{
-    console.log("post req. sent");
+    //console.log("post req. sent");
     Campground.findById(req.params.id,(err,foundCamp)=>{
         if(err){
             console.log(err);
@@ -36,9 +36,20 @@ router.post("/",middleware.isloggedin,(req,res)=>{
                     createdcomment.author.id= req.user._id;
                     createdcomment.author.username = req.user.username;
                     createdcomment.save(); 
+                    //currentUser.comments.push(createdcomment._id);
                     foundCamp.comments.push(createdcomment);
                     foundCamp.save();
-                    console.log(createdcomment);
+                    User.findById(req.user._id).exec((err,foundUser)=>{
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            foundUser.comments.push(createdcomment._id);
+                            foundUser.save();
+                            console.log(foundUser);
+
+                        }
+                    })
                     req.flash("success","Successfully added comment. ")
                     res.redirect("/campgrounds/"+foundCamp._id);
                     
