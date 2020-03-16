@@ -13,7 +13,16 @@ router.get("/",(req,res)=>{
             console.log(err);
         }
         else{
-            res.render("campgrounds/index",{campgrounds: Camps,currentUser: req.user});
+            User.find({},(err,allusers)=>{
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log(allusers);
+                    res.render("campgrounds/index",{campgrounds: Camps,currentUser: req.user,users:allusers});
+                }
+            })
+            
         }
     });
 

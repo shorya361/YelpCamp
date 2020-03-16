@@ -2,21 +2,22 @@
 
 <div class="container">
     <div class="jumbotron">
+        <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" >
         <h1><%= currentUser.username %></h1>
-        <a class="btn btn-primary btn-xs" href="/user/<%= currentUser._id %>/edit"> Edit Profile </a>
+        <a class="btn btn-primary btn-xs" href="/profile/<%= currentUser._id %>/edit"> Edit Profile </a>
         <h4>city: <%= currentUser.city%></h4>
         <h2>campgrounds created</h2><br>
         <% if( campgrounds.length==0 ) { %>
             <h4>
                 no campgrounds posted yet. 
             </h4> 
-            <a class="btn btn-primary btn-xs" href="/campgrounds/new/">Add new campground </a>
+            <a class="btn btn-info btn-xs" href="/campgrounds/new/">Add new campground </a>
 
             <% } else { %>
-            <%    campgrounds.forEach((camps)=>{  %>
+            <%    campgrounds.forEach((camps)=>{if(camps!=null){  %>
             <h3> <%= camps.name %> </h3>
             
-            <% } ) } %>    
+            <% } } ) } %>    
 
         <br>
         <br>

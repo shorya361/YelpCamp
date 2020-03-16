@@ -1,0 +1,22 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1><%= user.username %></h1>
+        <h4>city: <%= user.city%></h4>
+        <h2>campgrounds created</h2><br>
+        <% if( camps.length==0 ) { %>
+            <h4>
+                no campgrounds posted yet. 
+            </h4> 
+            <% } else { %>
+            <%    camps.forEach((camp)=>{if(camp!=null){  %>
+            <h3> <%= camp.name %> </h3>
+            
+            <% } } ) } %>    
+   
+    </div>
+</div>
+
+
+<%- include("../partials/footer") %>

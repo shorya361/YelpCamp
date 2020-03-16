@@ -17,12 +17,33 @@ router.get("/",(req,res)=>{
     res.render('landing');
 });
 
+router.get("/user/:id",async (req,res)=>{
+    try {
+        let campgrounds = [];
+        let foundUser = await User.findById(req.params.id);
+        console.log("founded user",foundUser);
+        for(const id in foundUser.campgrounds) {
+            
+            const data = await CAMP.findById(foundUser.campgrounds[id]);
+            console.log("user's camps",data);
+            if(data!=null)
+            {
+            campgrounds.push(data);
+            }            
+        }
+        console.log(campgrounds);
+        res.render("User/open_user",{camps:campgrounds,user:foundUser});
+    }
+    catch(err){
+        console.log(err);
+    }
+});
 
 //===============
 //USER ROUTE
 //===============
 //user profile page
-router.get("/user/:id", async (req,res)=>{
+router.get("/profile/:id", async (req,res)=>{
 
     try {
         let campgrounds = [];
@@ -31,8 +52,12 @@ router.get("/user/:id", async (req,res)=>{
         for(const id in foundUser.campgrounds) {
             
             const data = await CAMP.findById(foundUser.campgrounds[id]);
+            if(data!=null)
+            {
             campgrounds.push(data);
+            }
         }
+
         for(const id in foundUser.comments) {
             
             const data = await Comments.findById(foundUser.comments[id]);
@@ -42,7 +67,7 @@ router.get("/user/:id", async (req,res)=>{
 
             }
         }
-        //console.log(campgrounds,comments);
+        console.log(campgrounds,comments);
         res.render("User/user",{theUser : foundUser, campgrounds: campgrounds, comment : comments });
     } catch (err) {
         console.log(err);
@@ -51,14 +76,14 @@ router.get("/user/:id", async (req,res)=>{
 
 });
 //edit user route
-router.get("/user/:id/edit",middleware.isloggedin,(req,res)=>{
+router.get("/profile/:id/edit",middleware.isloggedin,(req,res)=>{
     User.findById(req.params.id,(err,foundUser)=>{
         res.render("User/edit",{theUser: foundUser});                
     })
 
 });
 //update the user    
-router.put("/user/:id",middleware.isloggedin,(req,res)=>{
+router.put("/profile/:id",middleware.isloggedin,(req,res)=>{
    
     User.findByIdAndUpdate(req.params.id,req.body.user,(err, updatedUser)=>{
         if(err){
@@ -66,7 +91,7 @@ router.put("/user/:id",middleware.isloggedin,(req,res)=>{
         }
         else{
             req.flash("success","Profile Updated");
-            res.redirect("/user/" + req.params.id);
+            res.redirect("/profile/" + req.params.id);
         }
     })
 });

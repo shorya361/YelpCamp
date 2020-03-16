@@ -1,33 +1,57 @@
 <%- include("../partials/header") %>
-<div>
-    
-    <div class="container">
-        <header class="jumbotron">
-            <div class="container">
-                <h1>Welcome to YelpCamp</h1>
-                <p>View our handpicked Campgrounds</p>
-                <a href="/campgrounds/new" class="btn btn-primary btn-large" >Add new campground</a>
-            </div>    
-        </header>
-        <div class="row text-center" style="display:flex; flex-wrap: wrap;" >
-                <% campgrounds.forEach((camps)=>{ %>
-                    <div class="col-md-3">
-                        <div class="card">
+
+    <div class="row">
+        <div class=" col-lg-3" id="user_side">
+            <div class="jumbotron" style="text-align: center;align-items: center; padding: 15px;">
+
+                <h1> users</h1>
+                <% users.forEach((one_user)=>{ %>
+                    <div class="row" style="width: 100%; margin-bottom: 8px;">                    
+                        <div style=" width: 100%; margin-left: 15px; padding-top: 5px;">    
+                            <div class="card">
                                 <div class="thumbnail">
-                                    <img src="<%= camps.image %>" >         
-                                    <div class="caption"> 
-                                        <h4><%= camps.name%></h4>
-                                    </div>  
-                                    <p>
-                                        <a href="/campgrounds/<%= camps._id%>" class="btn btn-primary">More Info</a>
-                                    </p>        
-                                </div>
-                                
-                        </div>  
+                                    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">                           
+                                    <a href="/user/<%= one_user._id%>"> <h3><%= one_user.username %></h3></a> 
+                                </div>  
+                            </div>                        
+                                                                                            
+                        </div>
                     </div>
                 <% }) %>  
+            </div>
         </div>
-    </div>    
-</div>
+        <div class="col-lg-6">
+                <div class="container">
+                    <header class="jumbotron" id="home_page_jumbo">
+                        <div class="container">
+                            <h1>Welcome to YelpCamp</h1>
+                            <p>View our handpicked Campgrounds</p>
+                            <a href="/campgrounds/new" class="btn btn-primary btn-large" >Add new campground</a>
+                        </div>    
+                    </header>
+                    <div class="row text-center" style="display:flex; flex-wrap: wrap;" >
+                            <% campgrounds.forEach((camps)=>{ %>
+                                <div class="col-md-3">
+                                    <div class="card">
+                                            <div class="thumbnail">
+                                                <img src="<%= camps.image %>" >         
+                                                <div class="caption"> 
+                                                    <h4><%= camps.name%></h4>
+                                                </div>  
+                                                <p>
+                                                    <a href="/campgrounds/<%= camps._id%>" class="btn btn-primary">More Info</a>
+                                                </p>        
+                                            </div>
+                                            
+                                    </div>  
+                                </div>
+                            <% }) %>  
+                    </div>
+                </div>  
+        </div>
+        
+    </div>
+  
+
 
 <%- include("../partials/footer") %>
