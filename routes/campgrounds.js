@@ -18,7 +18,6 @@ router.get("/",(req,res)=>{
                     console.log(err);
                 }
                 else{
-                    console.log(allusers);
                     res.render("campgrounds/index",{campgrounds: Camps,currentUser: req.user,users:allusers});
                 }
             })

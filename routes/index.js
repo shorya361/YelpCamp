@@ -21,17 +21,14 @@ router.get("/user/:id",async (req,res)=>{
     try {
         let campgrounds = [];
         let foundUser = await User.findById(req.params.id);
-        console.log("founded user",foundUser);
         for(const id in foundUser.campgrounds) {
             
             const data = await CAMP.findById(foundUser.campgrounds[id]);
-            console.log("user's camps",data);
             if(data!=null)
             {
             campgrounds.push(data);
             }            
         }
-        console.log(campgrounds);
         res.render("User/open_user",{camps:campgrounds,user:foundUser});
     }
     catch(err){
@@ -67,7 +64,6 @@ router.get("/profile/:id", async (req,res)=>{
 
             }
         }
-        console.log(campgrounds,comments);
         res.render("User/user",{theUser : foundUser, campgrounds: campgrounds, comment : comments });
     } catch (err) {
         console.log(err);
